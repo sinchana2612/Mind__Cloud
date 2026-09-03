@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Requests</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-482XK0D475"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-482XK0D475');
+    </script>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #F4F6F8;
+            margin: 0;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* ===== CONTENT ===== */
+        .container {
+            padding: 35px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        label {
+            font-weight: 600;
+            color: #4E6E63;
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 10px;
+            border: 1px solid #C9D4CF;
+            font-family: inherit;
+        }
+
+        textarea {
+            height: 120px;
+        }
+
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #7DAA92;
+            box-shadow: 0 0 0 2px rgba(125,170,146,0.25);
+        }
+
+        /* ===== BUTTONS ===== */
+        button {
+            margin-top: 18px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+
+        h3 {
+            margin-top: 25px;
+            color: #4E6E63;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: #E0E5E3;
+            margin: 25px 0;
+        }
+
+        /* ===== LINKS ===== */
+        a {
+            display: inline-block;
+            margin-top: 25px;
+            color: #5F8D7E;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h2>Pending Counselling Requests</h2>
+</div>
+
+<div class="container">
+    <div class="card">
+
+        <!-- ===== AI GENERATION FORM ===== -->
+        <form method="POST">
+            <label><b>Select Request</b></label>
+            <select name="request_id" required>
+                {% for r in requests %}
+                    <option value="{{ r.id }}"
+                        {% if selected_request_id == r.id|string %}selected{% endif %}>
+                        {{ r.student_name }} — {{ r.category }} — {{ r.problem[:50] }}...
+                    </option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" name="generate_ai">
+                Generate AI Suggestion
+            </button>
+        </form>
+
+        {% if ai_text %}
+        <hr>
+
+        <!-- ===== FINAL TEACHER REPLY ===== -->
+        <form method="POST" action="/teacher/reply/{{ selected_request_id }}">
+
+            <h3>AI Suggested Response (Editable)</h3>
+            <textarea name="ai-text">{{ ai_text }}</textarea>
+
+            <h3>Teacher Final Response</h3>
+            <!-- 🔥 BACKEND EXPECTS name="message" -->
+            <textarea name="message" required>{{ ai_text }}</textarea>
+
+            <!-- 🔥 BACKEND EXPECTS name="send_reply" -->
+            <button type="submit" name="send_reply">
+                Submit Final Response
+            </button>
+        </form>
+        {% endif %}
+
+    </div>
+
+    <a href="/teacher/dashboard">⬅ Back to Dashboard</a>
+</div>
+
+</body>
+</html>

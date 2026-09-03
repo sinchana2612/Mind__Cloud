@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counselling Sessions</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body{
+            background:#f4f7fb;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        .navbar{
+            background:#198754;
+        }
+
+        .navbar-brand{
+            color:white !important;
+            font-weight:bold;
+        }
+
+        .nav-link{
+            color:white !important;
+        }
+
+        .card{
+            border:none;
+            border-radius:15px;
+            box-shadow:0 5px 20px rgba(0,0,0,.08);
+        }
+
+        .table thead{
+            background:#198754;
+            color:white;
+        }
+
+        .badge{
+            font-size:14px;
+        }
+
+        .page-title{
+            font-weight:700;
+            color:#198754;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="/admin/dashboard">
+            Mind Cloud Admin
+        </a>
+
+        <button class="navbar-toggler bg-light" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/dashboard">Dashboard</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/students">Students</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/teachers">Teachers</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/sessions">Sessions</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-warning" href="/logout">
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+</nav>
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="page-title">
+            <i class="bi bi-chat-square-heart-fill"></i>
+            Counselling Sessions
+        </h2>
+
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category,message in messages %}
+            <div class="alert alert-{{category}}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="card">
+
+        <div class="card-body">
+
+            {% if sessions %}
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Student Name</th>
+                        <th>Problem</th>
+                        <th>Category</th>
+                        <th>Assigned Teacher</th>
+                        <th>Status</th>
+                        <th>Date</th>
+
+                    </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                    {% for s in sessions %}
+
+                    <tr>
+
+                        <td>{{ s.id }}</td>
+
+                        <td>{{ s.student_name }}</td>
+
+                        <td>{{ s.problem or "-" }}</td>
+
+                        <td>{{ s.category or "-" }}</td>
+
+                        <td>{{ s.teacher_name or "Not Assigned" }}</td>
+
+                        <td>
+
+                            {% if s.status == "PENDING" %}
+                                <span class="badge bg-warning text-dark">
+                                    {{ s.status }}
+                                </span>
+
+                            {% elif s.status == "ONGOING" %}
+                                <span class="badge bg-primary">
+                                    {{ s.status }}
+                                </span>
+
+                            {% elif s.status == "ENDED" %}
+                                <span class="badge bg-success">
+                                    {{ s.status }}
+                                </span>
+
+                            {% else %}
+                                <span class="badge bg-secondary">
+                                    {{ s.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>{{ s.created_at }}</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="text-center py-5">
+
+                <i class="bi bi-chat-square-text display-3 text-secondary"></i>
+
+                <h4 class="mt-3">
+                    No Counselling Sessions Found
+                </h4>
+
+                <p class="text-muted">
+                    Students haven't submitted any counselling requests yet.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

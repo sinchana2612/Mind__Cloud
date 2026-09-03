@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback</title>
+    <style>
+        body {
+            background: #F4F6F8;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            width: 100%;
+            max-width: 520px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        h2 {
+            color: #5F8D7E;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        label {
+            color: #444;
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            resize: none;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #7DAA92;
+            box-shadow: 0 0 0 2px rgba(125,170,146,0.2);
+        }
+
+        /* ===== STAR RATING ===== */
+        #stars {
+            margin-top: 10px;
+        }
+
+        .star {
+            font-size: 26px;
+            cursor: pointer;
+            color: #ccc;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .star:hover {
+            transform: scale(1.15);
+        }
+
+        .star.selected {
+            color: #7DAA92;
+        }
+
+        /* ===== BUTTON ===== */
+        button {
+            margin-top: 25px;
+            padding: 12px 22px;
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+<div class="container">
+    <div class="card">
+        <h2>Rate Your Counselling Experience</h2>
+
+        <form method="POST">
+
+            <label><b>Feedback Comments</b></label>
+            <textarea name="feedback" rows="5"
+                placeholder="Share your thoughts about the counselling session..."></textarea>
+
+            <label style="margin-top:15px; display:block;"><b>Rating</b></label>
+            <div id="stars">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+
+            <input type="hidden" name="rating" id="rating_value" value="0">
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+</div>
+
+<script>
+const stars = document.querySelectorAll(".star");
+stars.forEach(s => {
+    s.addEventListener("click", function() {
+        let val = this.dataset.value;
+        document.getElementById("rating_value").value = val;
+        stars.forEach(star => {
+            star.classList.remove("selected");
+            if (star.dataset.value <= val) star.classList.add("selected");
+        });
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher History</title>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-482XK0D475"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-482XK0D475');
+</script>
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #F4F6F8;
+        margin: 0;
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+        background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+        color: white;
+        padding: 14px 25px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .navbar a {
+        color:white;
+        margin-left:20px;
+        text-decoration:none;
+        font-weight:600;
+        transition: opacity 0.3s ease;
+    }
+    .navbar a:hover {
+        opacity: 0.85;
+        text-decoration: underline;
+    }
+    .navbar .logout {
+        background: rgba(255,255,255,0.18);
+        padding:6px 14px;
+        border-radius:20px;
+    }
+
+    /* ===== CONTENT ===== */
+    .container{
+        padding:35px;
+    }
+    .card{
+        background:white;
+        padding:30px;
+        border-radius:14px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.12);
+        animation: fadeIn 0.4s ease;
+    }
+
+    h2{
+        color:#4E6E63;
+        margin-bottom:20px;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+    }
+    th,td{
+        padding:14px;
+        border-bottom:1px solid #E0E5E3;
+        text-align:left;
+        vertical-align:top;
+    }
+    th{
+        background:#E6F0EB;
+        color:#3F4F4B;
+        font-weight:700;
+    }
+
+    tr:hover {
+        background: #F1F5F3;
+    }
+
+    .reply-btn{
+        background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+        color:white;
+        padding:7px 16px;
+        border-radius:20px;
+        text-decoration:none;
+        font-weight:600;
+        font-size:13px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display:inline-block;
+    }
+    .reply-btn:hover{
+        transform: translateY(-2px);
+        box-shadow:0 6px 18px rgba(0,0,0,0.25);
+    }
+
+    .disabled-btn{
+        background:#999 !important;
+        pointer-events:none;
+        cursor:not-allowed;
+    }
+
+    .pending{
+        color:#C62828;
+        font-weight:700;
+    }
+    .completed{
+        color:#2E7D32;
+        font-weight:700;
+    }
+    .closed{
+        color:#777;
+        font-weight:700;
+    }
+
+    .date{
+        font-size:13px;
+        color:#555;
+        white-space:nowrap;
+    }
+
+    @keyframes fadeIn {
+        from { opacity:0; transform: translateY(8px); }
+        to { opacity:1; transform: translateY(0); }
+    }
+</style>
+</head>
+<body>
+
+<div class="navbar">
+    <span class="brand">Teacher Panel</span>
+    <div>
+        <a href="/teacher/dashboard">Dashboard</a>
+        <a href="/teacher/request">Requests</a>
+        <a href="/teacher/history">History</a>
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>Counselling History</h2>
+
+        {% if history %}
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Problem</th>
+                <th>Your Response</th>
+                <th>Status</th>
+                <th>Feedback</th>
+                <th>Date</th>
+                <th>Open</th>
+            </tr>
+
+            {% for h in history %}
+            <tr>
+                <td>
+                    {% if h.confidential == 1 %}
+                        Anonymous
+                    {% else %}
+                        {{ h.student_name }}
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if h.confidential == 1 %}
+                        🔒 Confidential
+                    {% else %}
+                        {{ h.problem }}
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if h.confidential == 1 %}
+                        🔒 Hidden
+                    {% else %}
+                        {{ h.teacher_response or '—' }}
+                    {% endif %}
+                </td>
+
+                <td class="{% if h.is_closed == 1 %}closed{% elif h.teacher_response %}completed{% else %}pending{% endif %}">
+                    {% if h.is_closed == 1 %}
+                        ENDED
+                    {% elif h.teacher_response %}
+                        Completed
+                    {% else %}
+                        Pending
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if h.student_rating %}
+                        ⭐ {{ h.student_rating }}/5
+                    {% else %}
+                        —
+                    {% endif %}
+                </td>
+
+                <td class="date">
+                    {{ h.created_at.strftime("%Y-%m-%d %H:%M") }}
+                </td>
+
+                <td>
+                    <a class="reply-btn" href="/teacher/reply/{{ h.request_id }}">
+                        {% if h.is_closed == 1 %}
+                            View Chat
+                        {% else %}
+                            Open Chat
+                        {% endif %}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% else %}
+            <p>No counselling history available.</p>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

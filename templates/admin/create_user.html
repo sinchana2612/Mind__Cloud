@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create User</title>
+
+    <style>
+        /* ================= BASE ================= */
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #F4F6F8, #E6F2EC);
+            margin: 0;
+            color: #2E2E2E;
+        }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            padding: 14px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+
+        .navbar .brand {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+        }
+
+        .navbar a {
+            color: white;
+            margin-left: 22px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .navbar a::after {
+            content: "";
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            left: 0;
+            bottom: -4px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .navbar a:hover::after {
+            width: 100%;
+        }
+
+        .navbar .logout {
+            background: white;
+            color: #5F8D7E;
+            padding: 7px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .logout:hover {
+            background: #EEF6F2;
+            transform: scale(1.05);
+        }
+
+        /* ================= CONTAINER ================= */
+        .container {
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        /* ================= CARD ================= */
+        .card {
+            background: #FFFFFF;
+            padding: 35px;
+            width: 420px;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            color: #5F8D7E;
+            margin-bottom: 28px;
+            font-weight: 600;
+        }
+
+        /* ================= FORM ================= */
+        label {
+            font-weight: 600;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 6px;
+            color: #3E3E3E;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            border: 1px solid #C8D6CF;
+            background: #F9FBFA;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        input:hover, select:hover {
+            border-color: #7DAA92;
+            background: #FFFFFF;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #5F8D7E;
+            box-shadow: 0 0 0 3px rgba(125,170,146,0.2);
+        }
+
+        /* ================= BUTTON ================= */
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #7DAA92, #5F8D7E);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: all 0.35s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #5F8D7E, #4F7D6E);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(95,141,126,0.4);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        /* ================= ANIMATION ================= */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <span class="brand">Admin Panel</span>
+    <div>
+        <a href="/admin/dashboard">Dashboard</a>
+        <a href="/admin/create-user">Create User</a>
+        <a href="/admin/users">View Users</a>
+        <a href="/admin/assign">Assign Students</a>
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>Create New User</h2>
+
+        <form method="POST" action="/admin/create-user">
+
+            <label>Full Name</label>
+            <input type="text" name="UserName" placeholder="Enter full name" required>
+
+            <label>User ID (USN)</label>
+            <input type="text" name="USN" placeholder="Enter unique User ID" required>
+
+            <label>Password</label>
+            <input type="password" name="password" required>
+
+            <label>Role</label>
+            <select name="role" required>
+                <option value="">-- Select Role --</option>
+                <option value="admin">Admin</option>
+                <option value="teacher">Teacher</option>
+                <option value="student">Student</option>
+            </select>
+
+            <button type="submit">Create User</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

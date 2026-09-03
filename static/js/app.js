@@ -1,0 +1,1 @@
+document.addEventListener('DOMContentLoaded',()=>{const toggle=document.querySelector('[data-sidebar-toggle]');const sidebar=document.querySelector('#sidebar');if(toggle&&sidebar)toggle.addEventListener('click',()=>sidebar.classList.toggle('is-open'));document.querySelectorAll('.sidebar a').forEach(link=>{if(link.pathname===location.pathname)link.classList.add('active')});});

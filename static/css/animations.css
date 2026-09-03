@@ -1,0 +1,1 @@
+.stat-card,.panel,.form-card{animation:rise .35s ease both}@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.btn{transition:transform .15s,box-shadow .15s}.btn:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(32,72,180,.16)}

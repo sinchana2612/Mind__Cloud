@@ -1,0 +1,218 @@
+<!DOCTYPE html> 
+<html>
+<head>
+    <title>My Counselling History</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-482XK0D475"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-482XK0D475');
+    </script>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #F4F6F8;
+            margin: 0;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .navbar .brand {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .navbar a {
+            color: white;
+            margin-left: 22px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .navbar a:hover {
+            opacity: 0.85;
+        }
+
+        .navbar .logout {
+            background: rgba(255,255,255,0.95);
+            color: #5F8D7E;
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
+        /* ===== CONTENT ===== */
+        .container {
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            animation: fadeIn 0.4s ease;
+        }
+
+        h2 {
+            color: #5F8D7E;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        /* ===== TABLE ===== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background: #E6EFEA;
+            color: #4E6E63;
+            font-weight: 700;
+        }
+
+        tr:hover {
+            background: #F9FBFA;
+        }
+
+        /* ===== STATUS COLORS ===== */
+        .completed {
+            color: #2E7D32;
+            font-weight: bold;
+        }
+
+        .pending {
+            color: #C62828;
+            font-weight: bold;
+        }
+
+        .closed {
+            color: #777;
+            font-weight: bold;
+        }
+
+        /* ===== CHAT BUTTON ===== */
+        .chat-btn {
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 18px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-block;
+        }
+
+        .chat-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+        }
+
+        .disabled-btn {
+            background: #9E9E9E !important;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <span class="brand">Student Panel</span>
+    <div>
+        <a href="/student/dashboard">Dashboard</a>
+        <a href="/student/request">Request</a>
+        <a href="/student/history">History</a>
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>My Counselling History</h2>
+
+        {% if history %}
+        <table>
+            <tr>
+                <th>Problem</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Type</th>
+                <th>Conversation</th>
+            </tr>
+
+            {% for h in history %}
+            <tr>
+                <td>{{ h.problem }}</td>
+                <td>{{ h.category }}</td>
+
+                <td class="{% if h.is_closed == 1 %}closed{% elif h.status == 'Completed' %}completed{% else %}pending{% endif %}">
+                    {% if h.is_closed == 1 %}
+                        ENDED
+                    {% else %}
+                        {{ h.status }}
+                    {% endif %}
+                </td>
+
+                <td>
+                   {% if h.confidential == 1 %}
+                     🔒 Confidential
+                   {% else %}
+                     Visible
+                   {% endif %}
+                </td>
+
+                <td style="white-space:nowrap;">
+                    {% if h.is_closed == 1 %}
+                        <a class="chat-btn disabled-btn" href="/student/reply/{{ h.id }}">View Chat</a>
+                    {% else %}
+                        <a class="chat-btn" href="/student/reply/{{ h.id }}">Open Chat</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p>No counselling history found.</p>
+        {% endif %}
+    </div>
+</div>
+
+</body>
+</html>

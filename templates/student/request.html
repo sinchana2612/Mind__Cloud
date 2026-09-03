@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Counselling</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #F4F6F8;
+            margin: 0;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            padding: 14px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .navbar span {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .navbar a {
+            color: white;
+            margin-left: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .navbar a:hover {
+            opacity: 0.85;
+            text-decoration: underline;
+        }
+
+        /* ===== CONTENT ===== */
+        .container {
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            background: #FFFFFF;
+            padding: 30px;
+            width: 460px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            animation: fadeIn 0.4s ease;
+        }
+
+        h2 {
+            text-align: center;
+            color: #4E6E63;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-top: 18px;
+            color: #3F4F4B;
+        }
+
+        textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border-radius: 10px;
+            border: 1px solid #C9D6CF;
+            font-size: 14px;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #7DAA92;
+            box-shadow: 0 0 0 3px rgba(125,170,146,0.25);
+        }
+
+        label input[type="checkbox"] {
+            margin-right: 6px;
+            transform: scale(1.1);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            border: none;
+            border-radius: 22px;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <span>Student Panel</span>
+    <div>
+        <a href="/student/dashboard">Dashboard</a>
+        <a href="/student/history">My Requests</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+        <h2>Request Counselling Session</h2>
+
+        <form method="POST">
+
+            <!-- PROBLEM -->
+            <label>Your Problem</label>
+           <textarea name="problem" required>{{ prefilled_message }}</textarea>
+
+
+            <!-- CATEGORY -->
+            <label>Category</label>
+            <select name="category" required>
+                <option value="">-- Select Category --</option>
+                <option value="Academic">Academic</option>
+                <option value="Mental">Mental</option>
+                <option value="Personal">Personal</option>
+                <option value="Health">Health</option>
+            </select>
+
+            <label style="font-size:14px; margin-top:14px;">
+                <input type="checkbox" name="confidential" value="1">
+                Hide my identity for this counselling
+            </label>
+
+            <button type="submit">Submit Request</button>
+            {% if source == "teacher_request" %}
+<div style="background:#e8f4ff; padding:10px; margin-bottom:15px; border-radius:6px;">
+    <strong>Info:</strong> You are continuing a counselling session requested by your teacher.
+</div>
+{% endif %}
+
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

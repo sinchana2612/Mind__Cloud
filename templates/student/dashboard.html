@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-482XK0D475"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-482XK0D475');
+    </script>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #F4F6F8;
+            margin: 0;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+
+        .navbar .brand {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .navbar a {
+            color: white;
+            margin-left: 22px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .navbar a:hover {
+            opacity: 0.85;
+        }
+
+        .navbar .logout {
+            background: #ffffff;
+            color: #5F8D7E;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* ===== CONTENT ===== */
+        .container {
+            padding: 35px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 🔥 EXPANDED CARD */
+        .card {
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            width: 100%;
+            max-width: 760px; /* expanded */
+            animation: fadeIn 0.5s ease;
+        }
+
+        h2 {
+            color: #5F8D7E;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .info {
+            margin: 16px 0;
+            background: #F0F4F3;
+            padding: 14px;
+            border-radius: 10px;
+            border-left: 4px solid #7DAA92;
+        }
+
+        .info p {
+            margin: 6px 0;
+            color: #444;
+        }
+
+        /* ✅ ONE-LINE BUTTON FIX */
+        .actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: nowrap; /* 🔒 single line */
+        }
+
+        .actions a {
+            flex: 1;
+            text-align: center;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .actions a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<div class="navbar">
+    <span class="brand">Student Panel</span>
+    <div>
+        <a href="/student/dashboard">Dashboard</a>
+        <a href="/student/request">Request</a>
+        <a href="/student/history">History</a>
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+</div>
+
+<!-- ===== CONTENT ===== -->
+<div class="container">
+    <div class="card">
+        <h2>Welcome {{ student.UserName }} 🎓</h2>
+
+        <div class="info">
+            <p><b>Department:</b> {{ student.department }}</p>
+            <p><b>Class:</b> {{ student.class }}</p>
+            <p><b>Email:</b> {{ student.email }}</p>
+        </div>
+
+        <p>
+            This space is designed to support you. You can request counselling sessions,
+            track your conversations, and continue discussions with your teacher in a
+            safe and confidential environment.
+        </p>
+
+        <div class="actions">
+            <a href="/student/request">Request Counselling</a>
+            <a href="/student/history">View History</a>
+            <a href="/student/teacher_requests">Teacher Counselling Requests</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Dashboard</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-482XK0D475"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-482XK0D475');
+    </script>
+
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #F4F6F8;
+            margin: 0;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            padding: 14px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .navbar .brand {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .navbar a {
+            color: white;
+            margin-left: 18px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s ease;
+        }
+
+        .navbar a:hover {
+            opacity: 0.85;
+        }
+
+        .navbar .logout {
+            background: rgba(255,255,255,0.15);
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
+        /* ===== CONTENT ===== */
+        .container {
+            padding: 35px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h2 {
+            color: #4E6E63;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #3F4F4B;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            margin-top: 18px;
+            background: #EEF4F1;
+            padding: 18px;
+            border-radius: 10px;
+            border-left: 5px solid #7DAA92;
+        }
+
+        .info-box p {
+            margin: 6px 0;
+            font-weight: 600;
+        }
+
+        .info-box span {
+            font-weight: normal;
+        }
+
+        /* ===== QUICK LINKS ===== */
+        .quick-links {
+            margin-top: 25px;
+        }
+
+        .quick-links a {
+            display: inline-block;
+            margin-right: 15px;
+            margin-top: 10px;
+            padding: 10px 18px;
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            border-radius: 22px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .quick-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+
+        /* ===== UPLOAD SECTION ===== */
+        .upload-box {
+            margin-top: 35px;
+            background: #F0F4F3;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+        }
+
+        .upload-box h3 {
+            color: #4E6E63;
+            margin-bottom: 12px;
+        }
+
+        /* Hide default file input */
+        .upload-box input[type="file"] {
+            display: none;
+        }
+
+        /* Custom file button */
+        .file-label {
+            display: inline-block;
+            padding: 10px 22px;
+            background: linear-gradient(90deg, #5F8D7E, #7DAA92);
+            color: white;
+            border-radius: 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .file-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+
+        .file-name {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #4E6E63;
+            font-weight: 600;
+        }
+
+        .upload-box button {
+            margin-top: 18px;
+            padding: 10px 24px;
+            background: #4F7F6C;
+            color: white;
+            border: none;
+            border-radius: 22px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .upload-box button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #5F8D7E;
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<div class="navbar">
+    <span class="brand">Teacher Panel</span>
+    <div>
+        <a href="/teacher/dashboard">Dashboard</a>
+        <a href="/teacher/request">Requests</a>
+        <a href="/teacher/history">History</a>
+        <a href="/teacher/send_request">Send Counselling Request</a>
+        <a href="/teacher/teacher_requests">Student Responses</a>
+        <a href="/logout" class="logout">Logout</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card">
+
+        <h2>Welcome {{ name }} 👩‍🏫</h2>
+
+        {% if teacher %}
+        <div class="info-box">
+            <p>Department: <span>{{ teacher.department }}</span></p>
+            <p>Designation: <span>{{ teacher.designation }}</span></p>
+            <p>Email: <span>{{ teacher.email }}</span></p>
+            <p>Institute: <span>{{ teacher.institute }}</span></p>
+        </div>
+        {% endif %}
+
+        <p>
+            Manage counselling requests, respond to students,
+            and monitor academic performance from one place.
+        </p>
+
+        <div class="quick-links">
+            <a href="/teacher/request">View Requests</a>
+            <a href="/teacher/history">View History</a>
+            <a href="/teacher/export_excel">📊 Generate Excel Report</a>
+        </div>
+
+        <!-- ===== UPLOAD MARKS ===== -->
+        <div class="upload-box">
+            <h3>📤 Upload Marks & Attendance</h3>
+
+            {% if error %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+
+            <form action="/teacher/upload_performance"
+                  method="POST"
+                  enctype="multipart/form-data">
+
+                <label class="file-label">
+                    Choose Excel File
+                    <input type="file"
+                           name="excel_file"
+                           accept=".xlsx,.xls"
+                           required
+                           onchange="document.getElementById('fileName').innerText = this.files[0].name">
+                </label>
+
+                <div id="fileName" class="file-name">
+                    No file selected
+                </div>
+
+                <button type="submit">Upload Excel</button>
+            </form>
+
+            <a class="link" href="/teacher/performance">📊 View Performance</a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

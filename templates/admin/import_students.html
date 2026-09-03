@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block heading %}
+Import Students
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="form-card upload-card shadow-lg p-4">
+
+        <div class="text-center mb-4">
+            <i class="bi bi-file-earmark-spreadsheet upload-icon display-3 text-success"></i>
+
+            <h3 class="mt-3">
+                Bulk Student Import
+            </h3>
+
+            <p class="text-muted">
+                Download the sample template, fill in the student details,
+                and upload the completed Excel workbook.
+            </p>
+        </div>
+
+        <!-- Download Template -->
+
+        <div class="text-center mb-4">
+
+            <a href="{{ url_for('admin.download_student_template') }}"
+               class="btn btn-success">
+
+                <i class="bi bi-download me-2"></i>
+
+                Download Student Template
+
+            </a>
+
+        </div>
+
+        <!-- Information -->
+
+        <div class="alert alert-info">
+
+            <i class="bi bi-info-circle-fill me-2"></i>
+
+            Please download the template first.
+            Do not modify the column names.
+            Fill the data and upload the completed Excel file.
+
+        </div>
+
+        <!-- Upload Form -->
+
+        <form method="POST"
+              enctype="multipart/form-data"
+              class="needs-validation"
+              novalidate>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Select Excel File
+                </label>
+
+                <input
+                    type="file"
+                    name="excel_file"
+                    class="form-control"
+                    accept=".xlsx,.xls"
+                    required>
+
+                <div class="invalid-feedback">
+                    Please select an Excel file.
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+
+                <a href="/admin/students"
+                   class="btn btn-light">
+
+                    Cancel
+
+                </a>
+
+                <button
+                    type="reset"
+                    class="btn btn-outline-secondary">
+
+                    Reset
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary">
+
+                    <i class="bi bi-upload me-2"></i>
+
+                    Import Students
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

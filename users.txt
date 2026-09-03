@@ -1,0 +1,11 @@
+| Role | USN | Password |
+|---|---|---|
+| Admin | `ADMIN001` | `Admin@123` |
+| Admin | `ADMIN002` | `Admin@123` |
+| Admin | `ADMIN003` | `Admin@123` |
+| Teacher | `TEACH001` | `Teacher@123` |
+| Teacher | `TEACH002` | `Teacher@123` |
+| Teacher | `TEACH003` | `Teacher@123` |
+| Student | `STUD001` | `Student@123` |
+| Student | `STUD002` | `Student@123` |
+| Student | `STUD003` | `Student@123` |
